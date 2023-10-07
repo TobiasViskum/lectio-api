@@ -5,7 +5,6 @@ type StandardProps = {
 };
 
 type School = {
-  href: string;
   schoolCode: string;
   name: string;
 };

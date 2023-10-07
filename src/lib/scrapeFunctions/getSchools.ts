@@ -12,7 +12,7 @@ export async function getSchools() {
   try {
     schools = await page.$$eval("#schoolsdiv > div > a", (elements) => {
       return elements.map((a) => {
-        return { href: a.href, schoolCode: a.href.match(/[0-9]+/)![0], name: a.text };
+        return { schoolCode: a.href.match(/[0-9]+/)![0], name: a.text };
       });
     });
   } catch {
