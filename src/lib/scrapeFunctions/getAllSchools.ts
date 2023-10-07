@@ -1,12 +1,8 @@
 import puppeteer from "puppeteer";
+import { getBasicPage } from "../getBasicPage";
 
 export async function getAllSchools() {
-  const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox"],
-  });
-  const page = await browser.newPage();
-  await page.goto("https://www.lectio.dk/lectio/login_list.aspx");
+  const page = await getBasicPage({ targetPage: "https://www.lectio.dk/lectio/login_list.aspx" });
 
   let schools: School[] = [];
   try {
