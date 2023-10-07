@@ -1,8 +1,6 @@
 # Lectio API 2023 (preview)
 
-Lectio API is an API for the danish website, lectio.dk. Since there is no official API for Lectio, this API gets its data with web-scraping.
-
-<b>It's therefore important to note,</b> that if Lectio gets updated, some of the functions of this API mat brake
+Lectio API is an API for the danish website, lectio.dk. Since there is no official API for Lectio, this API gets its data with web-scraping. <b>It's therefore important to note,</b> that if Lectio gets updated, some of the functions of this API may break
 
 <small>Developed by Tobias T. Viskum</small>
 
