@@ -1,11 +1,11 @@
 {
-  "/get-lesson/route": "app/get-lesson/route.js",
   "/get-assignments/route": "app/get-assignments/route.js",
   "/get-messages/route": "app/get-messages/route.js",
-  "/get-school/by-school-code/route": "app/get-school/by-school-code/route.js",
+  "/get-lesson/route": "app/get-lesson/route.js",
+  "/get-schedule/student/route": "app/get-schedule/student/route.js",
+  "/get-teacher/by-initials/route": "app/get-teacher/by-initials/route.js",
   "/get-school/all/route": "app/get-school/all/route.js",
   "/get-schedule/teacher/route": "app/get-schedule/teacher/route.js",
-  "/get-schedule/student/route": "app/get-schedule/student/route.js",
-  "/get-teacher/all/route": "app/get-teacher/all/route.js",
-  "/get-teacher/by-initials/route": "app/get-teacher/by-initials/route.js"
+  "/get-school/by-school-code/route": "app/get-school/by-school-code/route.js",
+  "/get-teacher/all/route": "app/get-teacher/all/route.js"
 }
