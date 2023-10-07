@@ -1,7 +1,6 @@
-import puppeteer from "puppeteer";
 import { getBasicPage } from "../getBasicPage";
 
-export async function getAllSchools() {
+export async function getAllSchools(props: any) {
   const page = await getBasicPage({ targetPage: "https://www.lectio.dk/lectio/login_list.aspx" });
 
   let schools: School[] = [];
