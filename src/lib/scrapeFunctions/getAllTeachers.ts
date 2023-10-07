@@ -14,8 +14,9 @@ export async function getAllTeachers({ username, password, schoolCode }: Standar
         const name = item.innerHTML.split(" (")[0];
         const initials = item.innerHTML.split(" (")[1].replace(")", "");
         const href = ["https://lectio.dk", item.getAttribute("href")].join("") as string;
+        const teacherId = href.split("laererid=")[1];
 
-        return { name: name, initials: initials, href: href, img: "" };
+        return { name: name, initials: initials, teacherId: teacherId, href: href, img: "" };
       })
     );
 

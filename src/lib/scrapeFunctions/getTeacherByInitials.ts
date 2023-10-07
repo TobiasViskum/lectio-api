@@ -18,7 +18,7 @@ export async function getTeacherByInitials({ username, password, initials, schoo
 
     if (foundTeacher) {
       if (foundTeacher.img === "") {
-        const teacherId = foundTeacher.href.split("laererid=")[1];
+        const teacherId = foundTeacher.teacherId;
 
         const page = await getAuthenticatedPage({
           username: username,

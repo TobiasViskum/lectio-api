@@ -1,12 +1,12 @@
 import { getAuthenticatedPage } from "../getAuthenticatedPage";
 
-export async function getAssignments({ username, password, gym }: StandardProps) {
+export async function getAssignments({ username, password, schoolCode }: StandardProps) {
   try {
     const page = await getAuthenticatedPage({
       username: username,
       password: password,
-      targetPage: `https://www.lectio.dk/lectio/${gym}/OpgaverElev.aspx`,
-      gym: gym,
+      targetPage: `https://www.lectio.dk/lectio/${schoolCode}/OpgaverElev.aspx`,
+      schoolCode: schoolCode,
     });
 
     await Promise.all([page.waitForNavigation(), page.click("#s_m_Content_Content_CurrentExerciseFilterCB")]);
@@ -85,7 +85,7 @@ export async function getAssignments({ username, password, gym }: StandardProps)
     await page.browser().close();
 
     if (assignments.length === 0) {
-      return null;
+      return "No data";
     }
     return assignments;
   } catch {

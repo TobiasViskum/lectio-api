@@ -4,13 +4,13 @@ type Props = { href: string };
 
 type Homework = { titleHref: string; title: string; description: string[] };
 
-async function getClassInformation({ username, password, href, gym }: StandardProps & Props) {
+async function getClassInformation({ username, password, href, schoolCode }: StandardProps & Props) {
   try {
     const page = await getAuthenticatedPage({
       username: username,
       password: password,
       targetPage: href,
-      gym: gym,
+      schoolCode: schoolCode,
     });
 
     const getSubjectTheme = async () => {
