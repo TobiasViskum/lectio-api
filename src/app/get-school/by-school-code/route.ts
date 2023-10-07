@@ -1,15 +1,12 @@
 import { failedToGetData, invalidParameters, successNoData, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getSchool } from "@/lib/scrapeFunctions";
-import { standardSchema } from "@/lib/standard-schema";
 import { NextRequest } from "next/server";
 import z from "zod";
 
-const routeSchema = z
-  .object({
-    schoolCode: z.string(),
-  })
-  .merge(standardSchema);
+const routeSchema = z.object({
+  schoolCode: z.string(),
+});
 
 export async function GET(request: NextRequest) {
   const params = getSearchParamsObject(request);
