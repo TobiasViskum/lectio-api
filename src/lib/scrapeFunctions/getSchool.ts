@@ -3,7 +3,7 @@ import { getAllSchools } from ".";
 type Props = { schoolCode: string };
 
 export async function getSchool({ schoolCode }: Props) {
-  const schools = await getAllSchools("sdgsg");
+  const schools = await getAllSchools();
   if (schools === "No data") return "No data";
   if (schools === null) return null;
 

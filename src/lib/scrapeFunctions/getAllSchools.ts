@@ -1,6 +1,6 @@
 import { getBasicPage } from "../getBasicPage";
 
-export async function getAllSchools(props: any) {
+export async function getAllSchools() {
   const page = await getBasicPage({ targetPage: "https://www.lectio.dk/lectio/login_list.aspx" });
 
   let schools: School[] = [];
