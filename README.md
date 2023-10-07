@@ -6,7 +6,7 @@ Lectio API is an API for the danish website, lectio.dk. Since there is no offici
 
 <small>_Please note, that it has not released yet, however it will soon!_</small>
 
-## How to use it?
+## How to use the API?
 
 The url path is https://lectio-api.vercel.app/ and here is a list of all the possible endpoints:
 
