@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:readme": "git add README.md && git commit -m \"README update\" && git push",
-    "deploy:all": "git add . && git commit -m \"New update\" && git push"
+    "deploy:all": "pnpm build && git add . && git commit -m \"New update\" && git push"
   },
   "dependencies": {
     "next": "13.5.4",
