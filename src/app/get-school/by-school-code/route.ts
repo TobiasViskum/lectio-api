@@ -1,6 +1,6 @@
 import { failedToGetData, invalidParameters, successNoData, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
-import { getSchool } from "@/lib/scrapeFunctions";
+import { getSchool, getSchools } from "@/lib/scrapeFunctions";
 import { NextRequest } from "next/server";
 import z from "zod";
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const data = routeSchema.parse(params);
-    const result = await getSchool(data);
+    const result = await getSchools();
     if (result === "No data") {
       return successNoData(result);
     } else if (result === null) {
