@@ -1,6 +1,6 @@
 # Lectio API 2023 (preview)
 
-<small>Developed by Tobias T. Viskum</small>
+<small>Developed by Tobias T. Viskum</small> <br/>
 <small>Please note, that it has not released yet, however it will soon!</small>
 
 ## What is it?
