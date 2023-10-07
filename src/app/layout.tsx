@@ -13,7 +13,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div></div>
+        <div>Lectio API 2023</div>
+        <p>Get started here:</p>
       </body>
     </html>
   );
