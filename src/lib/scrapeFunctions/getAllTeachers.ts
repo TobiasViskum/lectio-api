@@ -8,8 +8,6 @@ export async function getAllTeachers({ username, password, schoolCode }: Standar
     schoolCode: schoolCode,
   });
 
-  console.log(page);
-
   if (page === "Error") return null;
   if (page === "Not authenticated") return page;
 

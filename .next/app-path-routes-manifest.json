@@ -1,0 +1,12 @@
+{
+  "/get-assignments/route": "/get-assignments",
+  "/get-is-authenticated/route": "/get-is-authenticated",
+  "/get-lesson/route": "/get-lesson",
+  "/get-messages/route": "/get-messages",
+  "/get-schedule/student/route": "/get-schedule/student",
+  "/get-schedule/teacher/route": "/get-schedule/teacher",
+  "/get-school/all/route": "/get-school/all",
+  "/get-school/by-school-code/route": "/get-school/by-school-code",
+  "/get-teacher/all/route": "/get-teacher/all",
+  "/get-teacher/by-initials/route": "/get-teacher/by-initials"
+}
