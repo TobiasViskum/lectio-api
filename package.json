@@ -11,6 +11,8 @@
     "deploy:all": "git add . && git commit -m \"New update\" && git push"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.32",
+    "cheerio": "1.0.0-rc.12",
     "next": "13.5.4",
     "puppeteer": "^21.3.8",
     "react": "^18",

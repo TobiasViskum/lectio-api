@@ -11,6 +11,7 @@ export async function getAllSchools() {
       });
     });
   } catch {
+    await page.browser().close();
     return null;
   }
 

@@ -3,35 +3,38 @@ import { getAuthenticatedPage } from "../getAuthenticatedPage";
 type Props = { week: string; year: string; teacherId?: string };
 
 export async function getSchedule({ username, password, week, year, schoolCode, teacherId }: StandardProps & Props) {
+  type LessonStatus = "changed" | "cancelled" | "normal";
+  type LessonTime = { date: string; startTime: string; endTime: string };
+  type LessonTeacher = { name: string; initials: string };
+  type Lesson = {
+    href: string;
+    status: LessonStatus;
+    time: LessonTime;
+    teachers: LessonTeacher[];
+    classroom: string;
+    classes: string[];
+    title: string;
+    subjects: string[];
+  };
+
+  type Week = { lessons: Lesson[]; notes: string[] };
+
+  let targetPage = `https://www.lectio.dk/lectio/${schoolCode}/SkemaNy.aspx?week=${week.toString() + year.toString()}`;
+  if (teacherId) {
+    targetPage = `https://www.lectio.dk/lectio/${schoolCode}/SkemaNy.aspx?week=${week + year}&laererid=${teacherId}`;
+  }
+
+  const page = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    targetPage: targetPage,
+    schoolCode: schoolCode,
+  });
+
+  if (page === "Error") return null;
+  if (page === "Not authenticated") return page;
+
   try {
-    type LessonStatus = "changed" | "cancelled" | "normal";
-    type LessonTime = { date: string; startTime: string; endTime: string };
-    type LessonTeacher = { name: string; initials: string };
-    type Lesson = {
-      href: string;
-      status: LessonStatus;
-      time: LessonTime;
-      teachers: LessonTeacher[];
-      classroom: string;
-      classes: string[];
-      title: string;
-      subjects: string[];
-    };
-
-    type Week = { lessons: Lesson[]; notes: string[] };
-
-    let targetPage = `https://www.lectio.dk/lectio/${schoolCode}/SkemaNy.aspx?week=${week.toString() + year.toString()}`;
-    if (teacherId) {
-      targetPage = `https://www.lectio.dk/lectio/${schoolCode}/SkemaNy.aspx?week=${week + year}&laererid=${teacherId}`;
-    }
-
-    const page = await getAuthenticatedPage({
-      username: username,
-      password: password,
-      targetPage: targetPage,
-      schoolCode: schoolCode,
-    });
-
     const weekSchedule: Week[] = await page.$$eval(".s2skemabrikcontainer.lec-context-menu-instance", async (containers) => {
       return containers.map((container, index) => {
         const lessons = Array.from(container.querySelectorAll("a[data-additionalinfo]"));
@@ -224,7 +227,7 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
 
     return weekSchedule;
   } catch (err) {
-    console.log(err);
+    await page.browser().close();
 
     return null;
   }

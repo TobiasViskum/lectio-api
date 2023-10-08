@@ -9,8 +9,9 @@ export async function getTeacherByInitials({ username, password, initials, schoo
   try {
     const teachers = await getAllTeachers({ username: username, password: password, schoolCode: schoolCode });
 
-    if (teachers === null) return null;
-    if (teachers === "No data") return "No data";
+    if (teachers === "Not authenticated") return teachers;
+    if (teachers === null) return teachers;
+    if (teachers === "No data") return teachers;
 
     const foundTeacher = teachers.find((teacher) => {
       return teacher.initials === initials;
@@ -19,13 +20,16 @@ export async function getTeacherByInitials({ username, password, initials, schoo
     if (foundTeacher) {
       if (foundTeacher.img === "") {
         const teacherId = foundTeacher.teacherId;
-
         const page = await getAuthenticatedPage({
           username: username,
           password: password,
           schoolCode: schoolCode,
           targetPage: `https://www.lectio.dk/lectio/${schoolCode}/DokumentOversigt.aspx?laererid=${teacherId}&folderid=T${teacherId}__5`,
         });
+
+        if (page === "Error") return null;
+        if (page === "Not authenticated") return page;
+
         const imageHref = await page.$eval("#s_m_HeaderContent_picctrlthumbimage", (elem) => {
           return elem.getAttribute("src") as string;
         });
@@ -36,7 +40,7 @@ export async function getTeacherByInitials({ username, password, initials, schoo
         return foundTeacher;
       }
     }
-    return null;
+    return "No data";
   } catch (err) {
     return null;
   }

@@ -5,14 +5,17 @@ type Props = { href: string };
 type Homework = { titleHref: string; title: string; description: string[] };
 
 async function getClassInformation({ username, password, href, schoolCode }: StandardProps & Props) {
-  try {
-    const page = await getAuthenticatedPage({
-      username: username,
-      password: password,
-      targetPage: href,
-      schoolCode: schoolCode,
-    });
+  const page = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    targetPage: href,
+    schoolCode: schoolCode,
+  });
 
+  if (page === "Error") return null;
+  if (page === "Not authenticated") return page;
+
+  try {
     const getSubjectTheme = async () => {
       let subjectTheme = { theme: "", href: "" };
       try {
@@ -167,7 +170,7 @@ async function getClassInformation({ username, password, href, schoolCode }: Sta
       presentation: homeworkOtherPresentation.presentation,
     };
   } catch (err) {
-    console.log(err);
+    await page.browser().close();
 
     return null;
   }

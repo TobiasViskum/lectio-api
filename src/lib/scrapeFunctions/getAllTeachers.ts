@@ -1,14 +1,19 @@
 import { getAuthenticatedPage } from "../getAuthenticatedPage";
 
 export async function getAllTeachers({ username, password, schoolCode }: StandardProps) {
-  try {
-    const page = await getAuthenticatedPage({
-      username: username,
-      password: password,
-      targetPage: `https://www.lectio.dk/lectio/${schoolCode}/FindSkema.aspx?type=laerer`,
-      schoolCode: schoolCode,
-    });
+  const page = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    targetPage: `https://www.lectio.dk/lectio/${schoolCode}/FindSkema.aspx?type=laerer`,
+    schoolCode: schoolCode,
+  });
 
+  console.log(page);
+
+  if (page === "Error") return null;
+  if (page === "Not authenticated") return page;
+
+  try {
     const teachers = await page.$$eval("[data-lectiocontextcard]", (elem) =>
       elem.map((item) => {
         const name = item.innerHTML.split(" (")[0];
@@ -28,6 +33,7 @@ export async function getAllTeachers({ username, password, schoolCode }: Standar
 
     return teachers;
   } catch {
+    await page.browser().close();
     return null;
   }
 }

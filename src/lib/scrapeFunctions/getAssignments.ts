@@ -1,15 +1,18 @@
 import { getAuthenticatedPage } from "../getAuthenticatedPage";
 
 export async function getAssignments({ username, password, schoolCode }: StandardProps) {
-  try {
-    const page = await getAuthenticatedPage({
-      username: username,
-      password: password,
-      targetPage: `https://www.lectio.dk/lectio/${schoolCode}/OpgaverElev.aspx`,
-      schoolCode: schoolCode,
-    });
+  const page = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    targetPage: `https://www.lectio.dk/lectio/${schoolCode}/OpgaverElev.aspx`,
+    schoolCode: schoolCode,
+  });
 
-    await Promise.all([page.waitForNavigation(), page.click("#s_m_Content_Content_CurrentExerciseFilterCB")]);
+  if (page === "Error") return null;
+  if (page === "Not authenticated") return page;
+
+  try {
+    await Promise.all([page.click("#s_m_Content_Content_CurrentExerciseFilterCB"), page.waitForNavigation()]);
 
     const assignments = await page.$$eval("#s_m_Content_Content_ExerciseGV > tbody > tr:not(:first-child)", (rows) => {
       return rows.map((row) => {
@@ -89,6 +92,7 @@ export async function getAssignments({ username, password, schoolCode }: Standar
     }
     return assignments;
   } catch {
+    await page.browser().close();
     return null;
   }
 }

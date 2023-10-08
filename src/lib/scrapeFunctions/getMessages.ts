@@ -10,17 +10,7 @@ type Message = {
 };
 type Props = { type: MessageTypes };
 
-export async function getMessages({ username, password, type, schoolCode }: StandardProps & Props): Promise<
-  | {
-      title: string;
-      latestSender: string;
-      sender: string;
-      receivers: string;
-      latestChange: string;
-    }[]
-  | Promise<"No data">
-  | null
-> {
+export async function getMessages({ username, password, type, schoolCode }: StandardProps & Props) {
   const typeMap: { [key in MessageTypes]: string } = {
     personal: `https://www.lectio.dk/lectio/${schoolCode}/beskeder2.aspx?type=&selectedfolderid=-10`,
     all: `https://www.lectio.dk/lectio/${schoolCode}/beskeder2.aspx?type=&selectedfolderid=-30`,
@@ -28,20 +18,22 @@ export async function getMessages({ username, password, type, schoolCode }: Stan
     newest: `https://www.lectio.dk/lectio/${schoolCode}/beskeder2.aspx?type=&selectedfolderid=-70`,
     unread: `https://www.lectio.dk/lectio/${schoolCode}/beskeder2.aspx?type=&selectedfolderid=-40`,
   } as const;
+  const targetPage = typeMap[type];
+
+  const page = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    targetPage: targetPage,
+    schoolCode: schoolCode,
+  });
+
+  if (page === "Error") return null;
+  if (page === "Not authenticated") return page;
 
   try {
-    const targetPage = typeMap[type];
-
-    const page = await getAuthenticatedPage({
-      username: username,
-      password: password,
-      targetPage: targetPage,
-      schoolCode: schoolCode,
-    });
-
     if (type === "all") {
-      await Promise.all([page.waitForNavigation(), page.click('div[lec-node-id="-30"] > div[lec-role="ltv-sublist"] > div:first-child > div > a')]);
-      await Promise.all([page.waitForNavigation(), page.click('td[colspan="9"] > table > tbody > tr > td:last-child > a')]);
+      await Promise.all([page.click('div[lec-node-id="-30"] > div[lec-role="ltv-sublist"] > div:first-child > div > a'), page.waitForNavigation()]);
+      await Promise.all([page.click('td[colspan="9"] > table > tbody > tr > td:last-child > a'), page.waitForNavigation()]);
     }
 
     let messages: Message[] | "No data" = "No data";
@@ -99,6 +91,7 @@ export async function getMessages({ username, password, type, schoolCode }: Stan
 
     return messages;
   } catch {
+    await page.browser().close();
     return null;
   }
 }

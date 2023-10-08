@@ -8,8 +8,12 @@ export function successNoData(message: string) {
   return NextResponse.json({ status: "success", message: message, data: null });
 }
 
+export function successNotAuthenticated() {
+  return NextResponse.json({ status: "success", message: "User not authenticated", data: null });
+}
+
 export function failedToGetData() {
-  return NextResponse.json({ status: "error", message: "An error happened when trying to get data. Make sure to provide the correct username, password and schoolCode" });
+  return NextResponse.json({ status: "error", message: "An error happened when trying to get data." });
 }
 
 type DefaultObject = { [key: string | number]: any };
