@@ -12,12 +12,9 @@ export async function getStudentByCredentials({ username, password, schoolCode }
   if (page === "Not authenticated") return page;
 
   try {
-    let image = "";
-    const icon = await page.$("img#s_m_HeaderContent_picctrlthumbimage");
-    if (icon) {
-      image = (await icon.screenshot({ encoding: "base64" })) as string;
-    }
-
+    const imgHref = await page.$eval("img#s_m_HeaderContent_picctrlthumbimage", (elem) => {
+      return [elem.src, "&fullsize=1"].join("") || "";
+    });
     const studentInformation = await page.$eval("div#s_m_HeaderContent_MainTitle > span.ls-hidden-smallscreen", (elem) => {
       let name = "";
       let studentClass = "";
@@ -39,11 +36,19 @@ export async function getStudentByCredentials({ username, password, schoolCode }
       };
     });
 
+    await page.goto(imgHref);
+
+    let imgEncoded = "";
+    const img = await page.$("img");
+    if (img) {
+      imgEncoded = (await img.screenshot({ encoding: "base64" })) as string;
+    }
+
     await page.browser().close();
     return {
       name: studentInformation.name,
       studentClass: studentInformation.studentClass,
-      img: image,
+      img: imgEncoded,
     };
   } catch {
     await page.browser().close();
