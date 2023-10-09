@@ -4,12 +4,12 @@ export function invalidParameters() {
   return NextResponse.json({ status: "error", message: "Invalid parameters" });
 }
 
-export function successNoData(message: string) {
-  return NextResponse.json({ status: "success", message: message, data: null });
+export function successNoData() {
+  return NextResponse.json({ status: "success", message: "There was no data", data: null });
 }
 
 export function successNotAuthenticated() {
-  return NextResponse.json({ status: "success", message: "User not authenticated", data: null });
+  return NextResponse.json({ status: "error", message: "User not authenticated" });
 }
 
 export function failedToGetData() {

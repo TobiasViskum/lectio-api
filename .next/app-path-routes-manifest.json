@@ -1,12 +1,13 @@
 {
-  "/get-assignments/route": "/get-assignments",
   "/get-is-authenticated/route": "/get-is-authenticated",
+  "/get-assignments/route": "/get-assignments",
   "/get-lesson/route": "/get-lesson",
   "/get-messages/route": "/get-messages",
-  "/get-schedule/student/route": "/get-schedule/student",
   "/get-schedule/teacher/route": "/get-schedule/teacher",
-  "/get-school/all/route": "/get-school/all",
+  "/get-schedule/student/route": "/get-schedule/student",
   "/get-school/by-school-code/route": "/get-school/by-school-code",
+  "/get-student/by-credentials/route": "/get-student/by-credentials",
+  "/get-school/all/route": "/get-school/all",
   "/get-teacher/all/route": "/get-teacher/all",
   "/get-teacher/by-initials/route": "/get-teacher/by-initials"
 }

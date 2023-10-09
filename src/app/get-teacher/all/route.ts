@@ -1,6 +1,6 @@
 import { failedToGetData, invalidParameters, successNoData, successNotAuthenticated, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
-import { getAllTeachers, getTeacherByInitials } from "@/lib/scrapeFunctions";
+import { getAllTeachers } from "@/lib/scrapeFunctions";
 import { standardSchema } from "@/lib/standard-schema";
 import { NextRequest } from "next/server";
 
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     if (result === "Not authenticated") {
       return successNotAuthenticated();
     } else if (result === "No data") {
-      return successNoData(result);
+      return successNoData();
     } else if (result === null) {
       return failedToGetData();
     } else {

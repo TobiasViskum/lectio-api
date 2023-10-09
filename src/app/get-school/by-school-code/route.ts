@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const data = routeSchema.parse(params);
     const result = await getSchool(data);
     if (result === "No data") {
-      return successNoData(result);
+      return successNoData();
     } else if (result === null) {
       return failedToGetData();
     } else {

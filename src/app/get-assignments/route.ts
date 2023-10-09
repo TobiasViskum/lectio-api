@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     if (result === "Not authenticated") {
       return successNotAuthenticated();
     } else if (result === "No data") {
-      return successNoData(result);
+      return successNoData();
     } else if (result === null) {
       return failedToGetData();
     } else {
