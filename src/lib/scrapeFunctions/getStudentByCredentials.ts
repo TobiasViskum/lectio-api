@@ -12,9 +12,12 @@ export async function getStudentByCredentials({ username, password, schoolCode }
   if (page === "Not authenticated") return page;
 
   try {
-    const imgHref = await page.$eval("img#s_m_HeaderContent_picctrlthumbimage", (elem) => {
-      return elem.src || "";
-    });
+    let image = "";
+    const icon = await page.$("img#s_m_HeaderContent_picctrlthumbimage");
+    if (icon) {
+      image = (await icon.screenshot({ encoding: "base64" })) as string;
+    }
+
     const studentInformation = await page.$eval("div#s_m_HeaderContent_MainTitle > span.ls-hidden-smallscreen", (elem) => {
       let name = "";
       let studentClass = "";
@@ -40,7 +43,7 @@ export async function getStudentByCredentials({ username, password, schoolCode }
     return {
       name: studentInformation.name,
       studentClass: studentInformation.studentClass,
-      img: imgHref,
+      img: image,
     };
   } catch {
     await page.browser().close();
