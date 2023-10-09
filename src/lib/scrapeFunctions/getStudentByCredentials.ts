@@ -50,7 +50,9 @@ export async function getStudentByCredentials({ username, password, schoolCode }
       studentClass: studentInformation.studentClass,
       img: imgEncoded,
     };
-  } catch {
+  } catch (err) {
+    console.log(err);
+
     await page.browser().close();
     return null;
   }
