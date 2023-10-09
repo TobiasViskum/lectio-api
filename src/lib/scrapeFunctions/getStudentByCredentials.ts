@@ -48,11 +48,9 @@ export async function getStudentByCredentials({ username, password, schoolCode }
     return {
       name: studentInformation.name,
       studentClass: studentInformation.studentClass,
-      img: imgEncoded,
+      imgSrc: ["data:image/png;base64,", imgEncoded].join(""),
     };
   } catch (err) {
-    console.log(err);
-
     await page.browser().close();
     return null;
   }
