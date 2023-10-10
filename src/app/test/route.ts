@@ -61,5 +61,5 @@ export async function GET(req: NextRequest) {
   let response = await axios.request(reqOptions);
   console.log(response.data);
 
-  return NextResponse.json({ data: null });
+  return NextResponse.json({ data: response.data });
 }
