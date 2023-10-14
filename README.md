@@ -13,3 +13,8 @@ The url path is https://lectio-api.vercel.app/ and here is a list of all the pos
 | Endpoint    | Parameters | Description                                             | Type                                                                                                             |
 | ----------- | ---------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | /get-school | none       | Gets a list of schools<br><ul><li>**schoolCode:** </ul> | <pre><code>type School = {<br/> schoolCode: string; <br/> name: string<br/>}</code></pre>Return type: `School[]` |
+
+
+### Future updates and fixes
+* `/get-school/by-school-code`: Wrong response message when school doesn't exist
+* `/get-schedule`: Implement for studentId, teacherId and credentials
