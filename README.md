@@ -12,7 +12,7 @@ The url path is https://lectio-api.vercel.app/ and here is a list of all the pos
 
 | Endpoint            | Parameters                    | Type                                                                                                             |
 | ------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| /get-school/all     |   Return type: `School[]`
+| `/get-school/all`     | Return type: `School[]`
 
 
 
