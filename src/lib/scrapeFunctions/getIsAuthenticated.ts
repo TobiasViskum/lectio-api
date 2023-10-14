@@ -1,31 +1,17 @@
-import { getBasicPage } from "../getBasicPage";
+import { getAuthenticatedPage } from "../getPage";
 
 export async function getIsAuthenticated({ username, password, schoolCode }: StandardProps) {
-  const page = await getBasicPage({ targetPage: `https://www.lectio.dk/lectio/${schoolCode}/login.aspx` });
+  const res = await getAuthenticatedPage({
+    username: username,
+    password: password,
+    schoolCode: schoolCode,
+    page: "front",
+  });
 
-  try {
-    await page.type("#username", username);
-    await page.type("#password", password);
-    await Promise.all([page.click("#m_Content_submitbtn2"), page.waitForNavigation()]);
+  if (res === "Not authenticated") return { isAuthenticated: false };
+  if (res === "No data") return res;
+  if (res === "Invalid school") return res;
+  if (res === null) return res;
 
-    try {
-      const title = await page.$eval("div#MainTitle", (elem) => {
-        return elem.textContent;
-      });
-
-      if (title) {
-        await page.browser().close();
-        return { isAuthenticated: false };
-      } else {
-        await page.browser().close();
-        return { isAuthenticated: true };
-      }
-    } catch {
-      await page.browser().close();
-      return { isAuthenticated: true };
-    }
-  } catch {
-    await page.browser().close();
-    return null;
-  }
+  return { isAuthenticated: true };
 }

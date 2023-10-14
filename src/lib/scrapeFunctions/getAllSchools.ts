@@ -1,21 +1,23 @@
-import { getBasicPage } from "../getBasicPage";
+import { getBasicPage } from "../getPage";
 
 export async function getAllSchools() {
-  const page = await getBasicPage({ targetPage: "https://www.lectio.dk/lectio/login_list.aspx" });
+  const $ = await getBasicPage({ page: "school" });
 
-  let schools: School[] = [];
-  try {
-    schools = await page.$$eval("#schoolsdiv > div > a", (elements) => {
-      return elements.map((a) => {
-        return { schoolCode: a.href.match(/[0-9]+/)![0], name: a.text };
-      });
-    });
-  } catch {
-    await page.browser().close();
-    return null;
-  }
+  if ($ === null) return $;
 
-  await page.browser().close();
+  let schools: School[] = $("#schoolsdiv > div > a")
+    .map((index, elem) => {
+      let obj = { schoolCode: "", name: "" };
+      const $elem = $(elem);
+      const schoolCode = $elem.attr("href");
+      const name = $elem.text();
+      if (schoolCode) {
+        obj.schoolCode = schoolCode.match(/[0-9]+/)![0];
+        obj.name = name;
+      }
+      return obj;
+    })
+    .get();
 
   if (schools.length === 0) return "No data";
 

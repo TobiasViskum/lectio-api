@@ -1,57 +1,59 @@
-import { getAuthenticatedPage } from "../getAuthenticatedPage";
+import { getAuthenticatedPage } from "../getPage";
 
 export async function getStudentByCredentials({ username, password, schoolCode }: StandardProps) {
-  const page = await getAuthenticatedPage({
+  const res = await getAuthenticatedPage({
     username: username,
     password: password,
     schoolCode: schoolCode,
-    targetPage: `https://www.lectio.dk/lectio/${schoolCode}/DokumentOversigt.aspx?folderid=S53701992282__`,
+    page: "student-by-credentials",
   });
 
-  if (page === "Error") return null;
-  if (page === "Not authenticated") return page;
+  if (res === null) return res;
+  if (res === "Not authenticated") return res;
+  if (res === "No data") return res;
+  if (res === "Invalid school") return res;
 
-  try {
-    const imgHref = await page.$eval("img#s_m_HeaderContent_picctrlthumbimage", (elem) => {
-      return [elem.src, "&fullsize=1"].join("") || "";
-    });
-    const studentInformation = await page.$eval("div#s_m_HeaderContent_MainTitle > span.ls-hidden-smallscreen", (elem) => {
-      let name = "";
-      let studentClass = "";
+  const $ = res.$;
+  const client = res.client;
 
-      const text = elem.innerHTML;
-      const nameMatch = text.match(/Eleven ([a-z0-9 ]+), /i);
-      const classMatch = text.match(/Eleven [a-z0-9 ]+, ([a-z0-9-]+) /i);
+  const imgHref = ["https://lectio.dk", $("img#s_m_HeaderContent_picctrlthumbimage").attr("src"), "&fullsize=1"].join("");
+  const imageBase64 = await client
+    .get(imgHref)
+    .then((res) => {
+      const contentType = res.headers["content-type"];
+      const base64Image = Buffer.from(res.data, "binary").toString("base64");
+      const fullSrc = ["data:", contentType, ";base64,", base64Image].join("");
 
-      if (nameMatch) {
-        name = nameMatch[1];
-      }
-      if (classMatch) {
-        studentClass = classMatch[1];
-      }
-
-      return {
-        name: name,
-        studentClass: studentClass,
-      };
+      return fullSrc;
+    })
+    .catch((err) => {
+      return null;
     });
 
-    await page.goto(imgHref);
-
-    let imgEncoded = "";
-    const img = await page.$("img");
-    if (img) {
-      imgEncoded = (await img.screenshot({ encoding: "base64" })) as string;
-    }
-
-    await page.browser().close();
-    return {
-      name: studentInformation.name,
-      studentClass: studentInformation.studentClass,
-      imgSrc: ["data:image/png;base64,", imgEncoded].join(""),
-    };
-  } catch (err) {
-    await page.browser().close();
-    return null;
+  let studentId = $("div#s_m_HeaderContent_MainTitle[data-lectiocontextcard]").attr("data-lectiocontextcard");
+  if (studentId) {
+    studentId = studentId.replace("S", "");
   }
+
+  const nameAndClass = $("div#s_m_HeaderContent_MainTitle > span.ls-hidden-smallscreen").text();
+
+  let name = "";
+  let studentClass = "";
+  const nameMatch = nameAndClass.match(/Eleven ([a-z0-9 ]+), /i);
+  const classMatch = nameAndClass.match(/Eleven [a-z0-9 ]+, ([a-z0-9-]+) /i);
+
+  if (nameMatch) {
+    name = nameMatch[1];
+  }
+  if (classMatch) {
+    studentClass = classMatch[1];
+  }
+
+  return {
+    name: name,
+    class: studentClass,
+    studentId: studentId || "",
+    imgUrl: imgHref,
+    imgSrc: imageBase64 || "",
+  } as Student;
 }

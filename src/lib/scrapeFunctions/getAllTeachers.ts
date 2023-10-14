@@ -1,37 +1,45 @@
-import { getAuthenticatedPage } from "../getAuthenticatedPage";
+import { getAuthenticatedPage } from "../getPage/getAuthenticatedPage";
 
 export async function getAllTeachers({ username, password, schoolCode }: StandardProps) {
-  const page = await getAuthenticatedPage({
+  const res = await getAuthenticatedPage({
+    page: "teachers",
     username: username,
     password: password,
-    targetPage: `https://www.lectio.dk/lectio/${schoolCode}/FindSkema.aspx?type=laerer`,
     schoolCode: schoolCode,
   });
 
-  if (page === "Error") return null;
-  if (page === "Not authenticated") return page;
+  if (res === "Not authenticated") return res;
+  if (res === "No data") return res;
+  if (res === "Invalid school") return res;
+  if (res === null) return res;
 
-  try {
-    const teachers = await page.$$eval("[data-lectiocontextcard]", (elem) =>
-      elem.map((item) => {
-        const name = item.innerHTML.split(" (")[0];
-        const initials = item.innerHTML.split(" (")[1].replace(")", "");
-        const href = ["https://lectio.dk", item.getAttribute("href")].join("") as string;
-        const teacherId = href.split("laererid=")[1];
+  const $ = res.$;
 
-        return { name: name, initials: initials, teacherId: teacherId, href: href, img: "" };
-      })
-    );
+  const teachers: Teacher[] = $("span.classpicture")
+    .map((index, elem) => {
+      let obj = { name: "", initials: "", teacherId: "", imgUrl: "", imgSrc: "" } as Teacher;
+      const $elem = $(elem);
+      const $name = $elem.find("> span > span");
+      const name = $name.text();
+      const teacherId = $name.attr("data-lectiocontextcard");
+      if (name && teacherId) {
+        obj.name = name.split(" (")[0];
+        obj.initials = name.split(" (")[1].replace(")", "");
+        obj.teacherId = teacherId.replace("T", "");
+      }
+      const src = $elem.find("img").attr("src");
+      if (src) {
+        const fullSrc = ["https://lectio.dk", src].join("");
+        obj.imgUrl = fullSrc;
+      }
 
-    await page.browser().close();
+      return obj;
+    })
+    .get();
 
-    if (teachers.length === 0) {
-      return "No data";
-    }
-
-    return teachers;
-  } catch {
-    await page.browser().close();
-    return null;
+  if (teachers.length === 0) {
+    return "No data";
   }
+
+  return teachers;
 }

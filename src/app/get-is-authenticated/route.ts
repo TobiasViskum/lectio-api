@@ -1,5 +1,4 @@
-import { failedToGetData, invalidParameters, successNoData, successRequest } from "@/lib/api-return";
-import { getBasicPage } from "@/lib/getBasicPage";
+import { errorSchoolInvalid, failedToGetData, invalidParameters, successNoData, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getIsAuthenticated } from "@/lib/scrapeFunctions/getIsAuthenticated";
 import { standardSchema } from "@/lib/standard-schema";
@@ -15,6 +14,10 @@ export async function GET(request: NextRequest) {
     const result = await getIsAuthenticated(data);
     if (result === null) {
       return failedToGetData();
+    } else if (result === "Invalid school") {
+      return errorSchoolInvalid();
+    } else if (result === "No data") {
+      successNoData();
     } else {
       return successRequest(result);
     }

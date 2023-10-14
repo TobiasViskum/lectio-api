@@ -1,4 +1,4 @@
-import { failedToGetData, invalidParameters, successNoData, successNotAuthenticated, successRequest } from "@/lib/api-return";
+import { failedToGetData, invalidParameters, successNoData, errorNotAuthenticated, errorSchoolInvalid, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getAssignments, getMessages } from "@/lib/scrapeFunctions";
 import { standardSchema } from "@/lib/standard-schema";
@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
     const data = routeSchema.parse(params);
     const result = await getAssignments(data);
     if (result === "Not authenticated") {
-      return successNotAuthenticated();
+      return errorNotAuthenticated();
+    } else if (result === "Invalid school") {
+      return errorSchoolInvalid();
     } else if (result === "No data") {
       return successNoData();
     } else if (result === null) {

@@ -8,8 +8,12 @@ export function successNoData() {
   return NextResponse.json({ status: "success", message: "There was no data", data: null });
 }
 
-export function successNotAuthenticated() {
+export function errorNotAuthenticated() {
   return NextResponse.json({ status: "error", message: "User not authenticated" });
+}
+
+export function errorSchoolInvalid() {
+  return NextResponse.json({ status: "error", message: "School doesn't exist" });
 }
 
 export function failedToGetData() {

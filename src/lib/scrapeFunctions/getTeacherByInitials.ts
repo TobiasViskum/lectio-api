@@ -1,47 +1,75 @@
 import { getAllTeachers } from ".";
-import { getAuthenticatedPage } from "../getAuthenticatedPage";
+import { getAuthenticatedPage } from "../getPage";
 
 type Props = {
   initials: string;
 };
 
 export async function getTeacherByInitials({ username, password, initials, schoolCode }: StandardProps & Props) {
-  try {
-    const teachers = await getAllTeachers({ username: username, password: password, schoolCode: schoolCode });
+  const res = await getAuthenticatedPage({
+    page: "teachers",
+    username: username,
+    password: password,
+    schoolCode: schoolCode,
+  });
 
-    if (teachers === "Not authenticated") return teachers;
-    if (teachers === null) return teachers;
-    if (teachers === "No data") return teachers;
+  if (res === "Not authenticated") return res;
+  if (res === "No data") return res;
+  if (res === "Invalid school") return res;
+  if (res === null) return res;
 
-    const foundTeacher = teachers.find((teacher) => {
-      return teacher.initials === initials;
+  const $ = res.$;
+  const client = res.client;
+
+  const teachers: Teacher[] = $("span.classpicture")
+    .map((index, elem) => {
+      let obj = { name: "", initials: "", teacherId: "", imgUrl: "", imgSrc: "" } as Teacher;
+      const $elem = $(elem);
+      const $name = $elem.find("> span > span");
+      const name = $name.text();
+      const teacherId = $name.attr("data-lectiocontextcard");
+      if (name && teacherId) {
+        obj.name = name.split(" (")[0];
+        obj.initials = name.split(" (")[1].replace(")", "");
+        obj.teacherId = teacherId.replace("T", "");
+      }
+      const src = $elem.find("img").attr("src");
+      if (src) {
+        const fullSrc = ["https://lectio.dk", src].join("");
+        obj.imgUrl = fullSrc;
+      }
+
+      return obj;
+    })
+    .get();
+
+  if (teachers.length === 0) {
+    return "No data";
+  }
+
+  const foundTeacher = teachers.find((teacher) => {
+    return teacher.initials.toLowerCase() === initials.toLowerCase();
+  });
+
+  if (foundTeacher === undefined) {
+    return "No data";
+  }
+
+  const imageBase64 = await client
+    .get(foundTeacher.imgUrl)
+    .then((res) => {
+      const contentType = res.headers["content-type"];
+
+      const base64Image = Buffer.from(res.data, "binary").toString("base64");
+      const fullSrc = ["data:", contentType, ";base64,", base64Image].join("");
+
+      return fullSrc;
+    })
+    .catch((err) => {
+      return null;
     });
 
-    if (foundTeacher) {
-      if (foundTeacher.img === "") {
-        const teacherId = foundTeacher.teacherId;
-        const page = await getAuthenticatedPage({
-          username: username,
-          password: password,
-          schoolCode: schoolCode,
-          targetPage: `https://www.lectio.dk/lectio/${schoolCode}/DokumentOversigt.aspx?laererid=${teacherId}&folderid=T${teacherId}__5`,
-        });
+  if (imageBase64) foundTeacher.imgSrc = imageBase64;
 
-        if (page === "Error") return null;
-        if (page === "Not authenticated") return page;
-
-        const imageHref = await page.$eval("#s_m_HeaderContent_picctrlthumbimage", (elem) => {
-          return elem.getAttribute("src") as string;
-        });
-        await page.browser().close();
-        foundTeacher.img = ["https://lectio.dk", imageHref].join("");
-        return foundTeacher;
-      } else {
-        return foundTeacher;
-      }
-    }
-    return "No data";
-  } catch (err) {
-    return null;
-  }
+  return foundTeacher;
 }
