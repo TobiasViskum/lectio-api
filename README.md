@@ -66,3 +66,4 @@ I will at some point create an npm-package that will make it easier to make the 
 * Implement get-absence
 * Implement get-studyPlan
 * Implement get-homepage-information
+* Fix: Sometimes a lesson can be like this: "6/11-2023 08:00 til 22/5-2024 09:00", which doesn't work with the current code.
