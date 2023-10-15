@@ -23,7 +23,7 @@ type StandardProps = {
 `/endpoint?username=value&password=value&schoolCode=value`<br>
 I will at some point create an npm-package that will make it easier to make the requests
 
-<i>If you under "Read more" see "Endpoint doesn't exist" it means that the core logic has already been created, <br> but the endpoint hasn't been made yet. </i>
+<i>If you under "Read more" just see "-" it means that the core logic has already been created, <br> but the endpoint hasn't been made yet. </i>
 
 | Endpoint                        | Description                                                                                          | Read more |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------- |
@@ -31,16 +31,16 @@ I will at some point create an npm-package that will make it easier to make the 
 | `/get-school/by-school-code`    | Returns a list of all schools.                                                                       | Help |
 | `/get-school/all`               | Returns a specific school                                                                            | Help |
 | `/get-student/by-credentials`   | Returns the student<br>with the provided username and password                                       | Help |
-| `/get-student/1g`               | Returns all first-year students                                                                      | Endpoint doesn't exist |
-| `/get-student/2g`               | Returns all second-year students                                                                     | Endpoint doesn't exist |
-| `/get-student/3g`               | Returns all third-year students                                                                      | Endpoint doesn't exist |
-| `/get-student/4g`               | Returns all fourth-year students                                                                     | Endpoint doesn't exist |
-| `/get-student/all`              | Returns all students                                                                                 | Endpoint doesn't exist |
+| `/get-student/1g`               | Returns all first-year students                                                                      | - |
+| `/get-student/2g`               | Returns all second-year students                                                                     | - |
+| `/get-student/3g`               | Returns all third-year students                                                                      | - |
+| `/get-student/4g`               | Returns all fourth-year students                                                                     | - |
+| `/get-student/all`              | Returns all students                                                                                 | - |
 | `/get-teacher/by-initials`      | Returns the teacher<bt>with the provided initials                                                    | Help |
 | `/get-teacher/all`              | Returns all teachers                                                                                 | Help |
-| `/get-schedule/by-credentials`  | Returns the schedule of a specified week <br> by the student with the provided username and password | Endpoint doesn't exist |
-| `/get-schedule/by-student-id`   | Returns the schedule of a specified week <br> of a student with the given id                         | Endpoint doesn't exist |
-| `/get-schedule/by-teacher-id`   | Returns the schedule of a specified week <br> of a teacher with the given id                         | Endpoint doesn't exist |
+| `/get-schedule/by-credentials`  | Returns the schedule of a specified week <br> by the student with the provided username and password | - |
+| `/get-schedule/by-student-id`   | Returns the schedule of a specified week <br> of a student with the given id                         | - |
+| `/get-schedule/by-teacher-id`   | Returns the schedule of a specified week <br> of a teacher with the given id                         | - |
 | `/get-lesson`                   | Returns a specific lesson<br>with the href retrieved from `/get-schedule/*`                          | Help |
 | `/get-homework`                 |
 
