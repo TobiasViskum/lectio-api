@@ -11,10 +11,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div>Lectio API 2023</div>
-        <p>Get started here:</p>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

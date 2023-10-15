@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "deploy:readme": "git add README.md && git commit -m \"README update\" && git push",
-    "deploy:all": "pnpm run build && git add . && git commit -m \"New update\" && git push"
+    "deploy:all": "git add . && git commit -m \"New update\" && git push"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.32",
