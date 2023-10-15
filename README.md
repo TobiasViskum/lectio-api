@@ -8,14 +8,50 @@ Lectio API is an API for the danish website, lectio.dk. Since there is no offici
 
 ## How to use this API?
 
-The url path is https://lectio-api.vercel.app/ and here is a list of all the possible endpoints:
+The base url path is https://lectio-api.vercel.app/ and below you'll see a table with all the current endpoints. <br> If no http method is specified then it's a GET request, and therefore all the parameters have to be sent in the url.
 
-| Endpoint            | Parameters                    | Type                                                                                                             |
-| ------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `/get-school/all`     | Return type: `School[]`
+Since Lectio requires you to be authenticated to get the result, you have to send these search parameters in the search query:
+
+```ts
+type StandardProps = {
+  username: string;
+  password: string;
+  schoolCode: string;
+}
+```
+
+`/endpoint?username=value&password=value&schoolCode=value`
+
+
+<i>If you under "Read more" see "Endpoint doesn't exist" then it means that the core logic has already been created, but the endpoint isn't made yet. </i>
+
+| Endpoint                        | Description                                                                                          | Read more |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------- |
+| `/get-is-authenticated`         | Returns if the student is authenticated or not                                                       | Help | 
+| `/get-school/by-school-code`    | Returns a list of all schools.                                                                       | Help |
+| `/get-school/all`               | Returns a specific school                                                                            | Help |
+| `/get-student/by-credentials`   | Returns the student with the provided username and password                                          | Help |
+| `/get-student/1g`               | Returns all first-year students                                                                      | Endpoint doesn't exist |
+| `/get-student/2g`               | Returns all second-year students                                                                     | Endpoint doesn't exist |
+| `/get-student/3g`               | Returns all third-year students                                                                      | Endpoint doesn't exist |
+| `/get-student/4g`               | Returns all fourth-year students                                                                     | Endpoint doesn't exist |
+| `/get-student/all`              | Returns all students                                                                                 | Endpoint doesn't exist |
+| `/get-teacher/by-initials`      | Returns the teacher with the provided initials                                                       | Help |
+| `/get-teacher/all`              | Returns all teachers                                                                                 | Help |
+| `/get-schedule/by-credentials`  | Returns the schedule of a specified week <br> by the student with the provided username and password | Endpoint doesn't exist |
+| `/get-schedule/by-student-id`   | Returns the schedule of a specified week <br> of a student with the given id                         | Endpoint doesn't exist |
+| `/get-schedule/by-teacher-id`   | Returns the schedule of a specified week <br> of a teacher with the given id                         | Endpoint doesn't exist |
+| `/get-lesson`                   | Returns a specific lesson with the href retrieved from `/get-schedule/*`                             | Help |
+| `/get-homework`                 |
+
 
 
 
 ### Future updates and fixes
 * `/get-school/by-school-code`: Wrong response message when school doesn't exist
 * `/get-schedule`: Implement for studentId, teacherId and credentials
+* `/get-homework`: Implement this endpoint
+* `/get-student/*`: Implement the rest of the endpoints
+* Implement post message functionality
+* Implement get all receivers when deciding on who to send the message to
+* Implement post elev-feedback functionality
