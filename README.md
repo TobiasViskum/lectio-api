@@ -55,3 +55,4 @@ I will at some point create an npm-package that will make it easier to make the 
 * Implement post message functionality
 * Implement get all receivers when deciding on who to send the message to
 * Implement post elev-feedback functionality
+* `/get-message/*`: Has already been implemented, but needs documentation
