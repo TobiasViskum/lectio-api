@@ -36,13 +36,18 @@ I will at some point create an npm-package that will make it easier to make the 
 | `/get-student/3g`               | Returns all third-year students                                                                      | - |
 | `/get-student/4g`               | Returns all fourth-year students                                                                     | - |
 | `/get-student/all`              | Returns all students                                                                                 | - |
-| `/get-teacher/by-initials`      | Returns the teacher<bt>with the provided initials                                                    | Help |
+| `/get-teacher/by-initials`      | Returns the teacher<br>with the provided initials                                                    | Help |
 | `/get-teacher/all`              | Returns all teachers                                                                                 | Help |
-| `/get-schedule/by-credentials`  | Returns the schedule of a specified week <br> by the student with the provided username and password | - |
-| `/get-schedule/by-student-id`   | Returns the schedule of a specified week <br> of a student with the given id                         | - |
-| `/get-schedule/by-teacher-id`   | Returns the schedule of a specified week <br> of a teacher with the given id                         | - |
+| `/get-schedule/by-credentials`  | Returns the schedule of the specified week <br> by the student with the provided username and password | - |
+| `/get-schedule/by-student-id`   | Returns the schedule of the specified week <br> of a student with the given id                         | - |
+| `/get-schedule/by-teacher-id`   | Returns the schedule ofthea specified week <br> of a teacher with the given id                         | - |
 | `/get-lesson`                   | Returns a specific lesson<br>with the href retrieved from `/get-schedule/*`                          | Help |
-| `/get-homework`                 |
+| `/get-homework`                 | Returns the homework of the student | |
+| `/get-messages/deleted`         | Returns all deleted messages                                                                         | Help |
+| `/get-messages/newest`          | Returns all the newest messages                                                                      | Help |
+| `/get-messages/unread`          | Return all unread messages                                                                           | Help |
+| `/get-messages/personal`        | Returns all messages that the student<br>have either sent or received                                | Help |
+| `/get-messages/all`             | Returns all the messages of the student                  
 
 
 
