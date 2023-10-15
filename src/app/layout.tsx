@@ -5,8 +5,13 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lectio",
-  description: "Made by Tobias T. Viskum",
+  title: "Lectio API 2023",
+  description: "Lectio API is an API for the danish website lectio.dk.",
+  keywords: "Lectio, API, LectioAPI, lectio.dk, 2023",
+  authors: { name: "Tobias Tranberg Viskum", url: "https://github.com/TobiasViskum" },
+  creator: "Tobias Tranberg Viskum",
+  applicationName: "Lectio API",
+  category: "API",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
