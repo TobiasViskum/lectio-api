@@ -1,6 +1,8 @@
 import { getAuthenticatedPage } from "../../getPage";
 import { getClass } from "./getClass";
 import { getClassroom } from "./getClassroom";
+import { getEndTime } from "./getEndTime";
+import { getStartTime } from "./getStartTime";
 import { getSubject } from "./getSubject";
 import { getTeachers } from "./getTeachers";
 import { getTime } from "./getTime";
@@ -30,7 +32,7 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
 
   const $ = res.$;
 
-  const weekSchedule = $(".s2skemabrikcontainer.lec-context-menu-instance")
+  const weekSchedule: Week[] = $(".s2skemabrikcontainer.lec-context-menu-instance")
     .map((_index, _elem) => {
       const $_elem = $(_elem);
 
@@ -53,10 +55,15 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
             status: "normal",
             time: { date: "", startTime: "", endTime: "" },
             teachers: [],
-            classroom: "",
+            classrooms: [""],
             classes: [],
             subjects: [],
             title: "",
+            hasNote: false,
+            hasHomework: false,
+            hasOtherContent: false,
+            hasPresentation: false,
+            overlappingLessons: 0,
           };
 
           if (info) {
@@ -64,15 +71,39 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
             lesson.status = status;
             lesson.time = getTime(info);
             lesson.teachers = getTeachers(info);
-            lesson.classroom = getClassroom(info);
+            lesson.classrooms = getClassroom(info);
             lesson.classes = getClass(info);
             lesson.subjects = getSubject(info);
             lesson.title = getTitle(info);
+            lesson.hasNote = info.includes("Note:");
+            lesson.hasHomework = info.includes("Lektier:");
+            lesson.hasOtherContent = info.includes("Øvrigt indhold:");
+            lesson.hasPresentation = info.includes("Aktiviteten har en præsentation.");
           }
           return lesson;
         })
         .get();
-      return lessons;
+
+      lessons.forEach((lesson1, index1) => {
+        lessons.forEach((lesson2, index2) => {
+          const startTime1 = getStartTime(lesson1);
+          const endTime1 = getEndTime(lesson1);
+
+          const startTime2 = getStartTime(lesson2);
+
+          if (index1 !== index2) {
+            if (startTime2 === startTime1) {
+              lessons[index2].overlappingLessons += 1;
+            } else if (startTime2 > startTime1 && startTime2 < endTime1) {
+              lessons[index2].overlappingLessons += 1;
+            }
+          }
+        });
+      });
+
+      lessons.sort((a, b) => getStartTime(a) - getStartTime(b) || getEndTime(a) - getEndTime(b));
+
+      return { lessons: lessons, notes: [""] };
     })
     .get();
 

@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lectio API 2023",
+  title: "Lectio API",
   description: "Lectio API is an API for the danish website lectio.dk.",
   keywords: "Lectio, API, LectioAPI, lectio.dk, 2023",
   authors: { name: "Tobias Tranberg Viskum", url: "https://github.com/TobiasViskum" },

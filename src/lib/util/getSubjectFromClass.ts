@@ -6,15 +6,19 @@ export function getSubjectName(classStr: string) {
   //lc = lowerCase
   let lcClass = classStr.toLowerCase().trimStart();
 
+  if (lcClass.includes("skolepulje")) return lcClass;
+
+  if (lcClass.split(", ").length > 1) return "";
+
   if (lcClass.includes("fy øv")) return "Fysikøvelse";
   if (lcClass.includes("ke øv")) return "Kemiøvelse";
   if (/ mc|-mc|mc-|mc /.test(lcClass)) {
     const mcName = capitalizeFirstLetter(lcClass.replace(/mc [0-9]+/i, "").trimStart());
-    return `${mcName} (Masterclass)`;
+    return mcName;
   }
   if (/ mk|-mk|mk-|mk /.test(lcClass)) {
     const mkName = capitalizeFirstLetter(lcClass.replace(/mk [0-9]+/i, "").trimStart());
-    return `${mkName} (Marselianerklub)`;
+    return mkName;
   }
   if (/ fy|-fy|fy-/.test(lcClass)) return "Fysik";
   if (/ ke|-ke|ke-/.test(lcClass)) return "Kemi";

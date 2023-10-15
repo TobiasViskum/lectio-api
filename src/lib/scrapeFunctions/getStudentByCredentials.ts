@@ -18,7 +18,7 @@ export async function getStudentByCredentials({ username, password, schoolCode }
 
   const imgHref = ["https://lectio.dk", $("img#s_m_HeaderContent_picctrlthumbimage").attr("src"), "&fullsize=1"].join("");
   const imageBase64 = await client
-    .get(imgHref)
+    .get(imgHref, { responseType: "arraybuffer" })
     .then((res) => {
       const contentType = res.headers["content-type"];
       const base64Image = Buffer.from(res.data, "binary").toString("base64");

@@ -1,6 +1,6 @@
 import { failedToGetData, invalidParameters, successNoData, errorNotAuthenticated, errorSchoolInvalid, successRequest } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
-import { getSchedule, getTeacherByInitials } from "@/lib/scrapeFunctions";
+import { getSchedule } from "@/lib/scrapeFunctions";
 import { standardSchema } from "@/lib/standard-schema";
 import { NextRequest } from "next/server";
 import z from "zod";

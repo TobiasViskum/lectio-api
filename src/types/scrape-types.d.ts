@@ -51,9 +51,14 @@ type Lesson = {
   status: LessonStatus;
   time: LessonTime;
   teachers: Teacher[];
-  classroom: string;
+  classrooms: string[];
   classes: string[];
   title: string;
   subjects: string[];
+  hasNote: boolean;
+  hasHomework: boolean;
+  hasOtherContent: boolean;
+  hasPresentation: boolean;
+  overlappingLessons: number;
 };
 type Week = { lessons: Lesson[]; notes: string[] };

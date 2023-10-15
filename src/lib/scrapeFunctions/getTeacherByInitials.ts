@@ -56,7 +56,7 @@ export async function getTeacherByInitials({ username, password, initials, schoo
   }
 
   const imageBase64 = await client
-    .get(foundTeacher.imgUrl)
+    .get(foundTeacher.imgUrl, { responseType: "arraybuffer" })
     .then((res) => {
       const contentType = res.headers["content-type"];
 

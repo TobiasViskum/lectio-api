@@ -9,7 +9,6 @@ const routeSchema = z
   .object({
     week: z.string(),
     year: z.string(),
-    studentId: z.string(),
   })
   .merge(standardSchema);
 
