@@ -10,8 +10,8 @@ Lectio API is an API for the danish website, lectio.dk. Since there is no offici
 
 The base url path is https://lectio-api.vercel.app/ and below you'll see a table with all the current endpoints. <br> If no http method is specified then it's a GET request, and therefore all the parameters have to be sent in the url.
 
-Since Lectio requires you to be authenticated to get the result, you have to send these search parameters in the search query:
-
+Since Lectio requires you to be authenticated to get the result, you have to send at least these search parameters in every search query:<br>
+<i>Except `/get-school/*`</i>
 ```ts
 type StandardProps = {
   username: string;
