@@ -4,7 +4,7 @@ Lectio API is an API for the danish website, lectio.dk. Since there is no offici
 
 <small>Developed by Tobias T. Viskum</small>
 
-<small>_Please note, that it has not released yet, however it will soon!_</small>
+<small><i>NOTE: Nothing sent to this API will be stored, but you'll always have the opportunity to clone this repository and host the API yourself</i></small>
 
 ## How to use this API?
 
