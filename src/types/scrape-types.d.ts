@@ -41,11 +41,11 @@ type Assignment = {
   gradeNote: string;
   id: string;
 };
-type SubmittedDocument = { name: string; src: string };
+type SubmittedDocument = { name: string; href: string };
 type FullAssignment = {
   title: string;
   documents: SubmittedDocument[];
-  note: string[];
+  description: string[];
   subject: string;
   class: string;
   gradeSystem: string;
@@ -62,8 +62,8 @@ type FullAssignment = {
   studentNote: string;
   submits: {
     time: { date: string; time: string };
-    submitter: "";
-    comment: "";
+    submitter: string;
+    comment: string;
     document: SubmittedDocument;
   }[];
 };

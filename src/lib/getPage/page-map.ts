@@ -23,7 +23,7 @@ export function getPageFromMap({ page }: Props) {
     "messages-deleted": "beskeder2.aspx?selectedfolderid=-60",
     "student-by-credentials": "DokumentOversigt.aspx?folderid=S53701992282__",
     "teachers":
-      "subnav/members.aspx?holdelementid=35338545824&showteachers=1&showstudents=1&reporttype=classpicture",
+      "subnav%2fmembers.aspx%3fholdelementid%3d35338545824%26showteachers%3d1%26showstudents%3d1%26reporttype%3dclasspicture",
   };
 
   return pageMap[page];

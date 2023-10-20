@@ -64,6 +64,6 @@ export function getAssignmentProps($item: cheerio.Cheerio): Assignment {
     awaiter: awaiter,
     grade: grade,
     gradeNote: gradeNote,
-    id: id,
+    id: href.split("exerciseid=")[1],
   };
 }
