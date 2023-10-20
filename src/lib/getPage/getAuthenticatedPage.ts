@@ -7,7 +7,6 @@ import { getSchool } from "../scrapeFunctions";
 type Props = {
   page?: Pages;
   specificPage?: string;
-  cookies?: { name: string; value: string }[];
 } & StandardProps;
 
 export async function getAuthenticatedPage({
@@ -16,7 +15,6 @@ export async function getAuthenticatedPage({
   username,
   password,
   schoolCode,
-  cookies,
 }: Props) {
   const baseUrl = "https://www.lectio.dk/lectio";
   let targetPage = "";
@@ -33,9 +31,6 @@ export async function getAuthenticatedPage({
 
   if (school === null) return "Invalid school";
   if (school === "No data") return school;
-
-  if (cookies && cookies.length > 0) {
-  }
 
   const client = getAxiosInstance();
   const form = await client

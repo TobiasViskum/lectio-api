@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
     password: password,
     schoolCode: schoolCode,
     specificPage: targetPage,
-    cookies: request.cookies.getAll(),
   });
 
   type Titles =

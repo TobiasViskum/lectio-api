@@ -5,7 +5,7 @@ import { load } from "cheerio";
 import { NextRequest, NextResponse } from "next/server";
 import makeFetchCookie from "fetch-cookie";
 
-export async function middleware(req: NextRequest) {
+export async function middlewaretest(req: NextRequest) {
   const baseUrl = "https://www.lectio.dk/lectio";
 
   if (req.cookies.get("x-lectiogsc") && req.cookies.get("x-ASP.NET_SessionId")) {

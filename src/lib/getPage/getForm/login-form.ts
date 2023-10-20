@@ -26,7 +26,6 @@ export function getLoginForm({
   form.append("__EVENTVALIDATION", __EVENTVALIDATION);
   form.append("m$Content$username", username);
   form.append("m$Content$password", password);
-  form.append("m$Content$AutologinCbx", "on");
   form.append("masterfootervalue", masterFooterValue);
   form.append("LectioPostbackId", "");
 
