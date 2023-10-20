@@ -6,7 +6,13 @@ type Props = {
   password: string;
 };
 
-export function getLoginForm({ __VIEWSTATEX, __EVENTVALIDATION, masterFooterValue, username, password }: Props) {
+export function getLoginForm({
+  __VIEWSTATEX,
+  __EVENTVALIDATION,
+  masterFooterValue,
+  username,
+  password,
+}: Props) {
   let form = new FormData();
 
   form.append("time", "0");
@@ -20,6 +26,7 @@ export function getLoginForm({ __VIEWSTATEX, __EVENTVALIDATION, masterFooterValu
   form.append("__EVENTVALIDATION", __EVENTVALIDATION);
   form.append("m$Content$username", username);
   form.append("m$Content$password", password);
+  form.append("m$Content$AutologinCbx", "on");
   form.append("masterfootervalue", masterFooterValue);
   form.append("LectioPostbackId", "");
 

@@ -32,8 +32,8 @@ type Assignment = {
   subject: string;
   title: string;
   dueTo: string;
-  assignmentTime: string;
-  assignmentDescription: string;
+  studentTime: string;
+  description: string;
   status: string;
   absence: string;
   awaiter: string;
@@ -41,8 +41,38 @@ type Assignment = {
   gradeNote: string;
   id: string;
 };
+type SubmittedDocument = { name: string; src: string };
+type FullAssignment = {
+  title: string;
+  documents: SubmittedDocument[];
+  note: string[];
+  subject: string;
+  class: string;
+  gradeSystem: string;
+  teacher: Teacher;
+  studentTime: number;
+  dueTo: { date: string; time: string };
+  inTeachingDescription: boolean;
+  awaiter: string;
+  status: string;
+  absence: string;
+  finished: boolean;
+  grade: string;
+  gradeNote: string;
+  studentNote: string;
+  submits: {
+    time: { date: string; time: string };
+    submitter: "";
+    comment: "";
+    document: SubmittedDocument;
+  }[];
+};
 
-type Homework = { titleHref: string; title: string; description: (string | string[] | { img: string })[] };
+type Homework = {
+  titleHref: string;
+  title: string;
+  description: (string | string[] | { img: string })[];
+};
 
 type LessonStatus = "changed" | "cancelled" | "normal";
 type LessonTime = { date: string; startTime: string; endTime: string };

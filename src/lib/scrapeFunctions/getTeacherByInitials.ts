@@ -5,7 +5,12 @@ type Props = {
   initials: string;
 };
 
-export async function getTeacherByInitials({ username, password, initials, schoolCode }: StandardProps & Props) {
+export async function getTeacherByInitials({
+  username,
+  password,
+  initials,
+  schoolCode,
+}: StandardProps & Props) {
   const res = await getAuthenticatedPage({
     page: "teachers",
     username: username,

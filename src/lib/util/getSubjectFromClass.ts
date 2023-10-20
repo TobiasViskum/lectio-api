@@ -49,5 +49,5 @@ export function getSubjectName(classStr: string) {
   if (/ re|-re|re-/.test(lcClass)) return "Religion";
   if (/ skr|-skr|skr-/.test(lcClass)) return "Skriftlige opgaver";
   if (/ sp|-sp|sp-/.test(lcClass)) return "Spansk";
-  return "";
+  return lcClass;
 }

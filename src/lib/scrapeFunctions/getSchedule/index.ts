@@ -80,6 +80,11 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
             lesson.hasOtherContent = info.includes("Øvrigt indhold:");
             lesson.hasPresentation = info.includes("Aktiviteten har en præsentation.");
           }
+
+          if (lesson.subjects.length === 1 && lesson.classes.length === 1 && lesson.subjects[0] === lesson.classes[0]) {
+            lesson.classes = [""];
+          }
+
           return lesson;
         })
         .get();

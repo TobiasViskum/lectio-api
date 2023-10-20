@@ -16,13 +16,17 @@ export async function getStudentByCredentials({ username, password, schoolCode }
   const $ = res.$;
   const client = res.client;
 
-  const imgHref = ["https://lectio.dk", $("img#s_m_HeaderContent_picctrlthumbimage").attr("src"), "&fullsize=1"].join("");
+  const imgHref = [
+    "https://lectio.dk",
+    $("img#s_m_HeaderContent_picctrlthumbimage").attr("src"),
+    "&fullsize=1",
+  ].join("");
   const imageBase64 = await client
     .get(imgHref, { responseType: "arraybuffer" })
     .then((res) => {
       const contentType = res.headers["content-type"];
-      const base64Image = Buffer.from(res.data, "binary").toString("base64");
-      const fullSrc = ["data:", contentType, ";base64,", base64Image].join("");
+      const base64 = Buffer.from(res.data, "binary").toString("base64");
+      const fullSrc = ["data:", contentType, ";base64,", base64].join("");
 
       return fullSrc;
     })
@@ -30,7 +34,9 @@ export async function getStudentByCredentials({ username, password, schoolCode }
       return null;
     });
 
-  let studentId = $("div#s_m_HeaderContent_MainTitle[data-lectiocontextcard]").attr("data-lectiocontextcard");
+  let studentId = $("div#s_m_HeaderContent_MainTitle[data-lectiocontextcard]").attr(
+    "data-lectiocontextcard"
+  );
   if (studentId) {
     studentId = studentId.replace("S", "");
   }
