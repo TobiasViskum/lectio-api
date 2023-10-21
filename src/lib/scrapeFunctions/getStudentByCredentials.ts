@@ -1,16 +1,14 @@
 import { getAuthenticatedPage } from "../getPage";
 
-export async function getStudentByCredentials({ username, password, schoolCode }: StandardProps) {
+export async function getStudentByCredentials({ lectioCookies, schoolCode }: StandardProps) {
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     page: "student-by-credentials",
   });
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
 
   const $ = res.$;
@@ -22,7 +20,7 @@ export async function getStudentByCredentials({ username, password, schoolCode }
     "&fullsize=1",
   ].join("");
   const imageBase64 = await client
-    .get(imgHref, { responseType: "arraybuffer" })
+    .get(imgHref, { responseType: "arraybuffer", headers: { "Cookie": lectioCookies } })
     .then((res) => {
       const contentType = res.headers["content-type"];
       const base64 = Buffer.from(res.data, "binary").toString("base64");

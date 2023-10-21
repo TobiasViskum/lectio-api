@@ -10,7 +10,14 @@ import { getTitle } from "./getTitle";
 
 type Props = { week: string; year: string; teacherId?: string; studentId?: string };
 
-export async function getSchedule({ username, password, week, year, schoolCode, teacherId, studentId }: StandardProps & Props) {
+export async function getSchedule({
+  lectioCookies,
+  week,
+  year,
+  schoolCode,
+  teacherId,
+  studentId,
+}: StandardProps & Props) {
   let targetPage = `SkemaNy.aspx?week=${week.toString() + year.toString()}`;
   if (teacherId) {
     targetPage = `SkemaNy.aspx?week=${week + year}&laererid=${teacherId}`;
@@ -19,15 +26,13 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
   }
 
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     specificPage: targetPage,
   });
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
 
   const $ = res.$;
@@ -41,12 +46,17 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
         .map((index, elem) => {
           const $elem = $(elem);
           let href = ["https://lectio.dk", $elem.attr("href")].join("");
-          const hrefRegex = /https:\/\/lectio.dk\/lectio\/[0-9]+\/(aktivitet\/aktivitetforside2.aspx\?absid=[0-9]+)/i;
+          const hrefRegex =
+            /https:\/\/lectio.dk\/lectio\/[0-9]+\/(aktivitet\/aktivitetforside2.aspx\?absid=[0-9]+)/i;
           const hrefMath = href.match(hrefRegex);
           const info = $elem.attr("data-additionalinfo");
           let status: LessonStatus = "normal";
           if (hrefMath && info) {
-            status = info.includes("Ændret!") ? "changed" : info.includes("Aflyst!") ? "cancelled" : "normal";
+            status = info.includes("Ændret!")
+              ? "changed"
+              : info.includes("Aflyst!")
+              ? "cancelled"
+              : "normal";
             href = hrefMath[1];
           }
 
@@ -81,7 +91,11 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
             lesson.hasPresentation = info.includes("Aktiviteten har en præsentation.");
           }
 
-          if (lesson.subjects.length === 1 && lesson.classes.length === 1 && lesson.subjects[0] === lesson.classes[0]) {
+          if (
+            lesson.subjects.length === 1 &&
+            lesson.classes.length === 1 &&
+            lesson.subjects[0] === lesson.classes[0]
+          ) {
             lesson.classes = [""];
           }
 
@@ -108,7 +122,9 @@ export async function getSchedule({ username, password, week, year, schoolCode, 
 
       lessons.sort((a, b) => getStartTime(a) - getStartTime(b) || getEndTime(a) - getEndTime(b));
 
-      return { lessons: lessons, notes: [""] };
+      if (_index <= 4) {
+        return { lessons: lessons, notes: [""] };
+      }
     })
     .get();
 

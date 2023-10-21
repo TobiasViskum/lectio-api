@@ -1,4 +1,9 @@
 type StandardProps = {
+  lectioCookies: string;
+  schoolCode: string;
+};
+
+type StandardProps2 = {
   username: string;
   password: string;
   schoolCode: string;

@@ -2,20 +2,17 @@ import { load } from "cheerio";
 import { getAuthenticatedPage } from ".";
 import { getAssignmentsForm } from "./getForm/assignment-form";
 
-type Props = StandardProps;
+type Props = StandardProps2;
 
-export async function getAssignmentsPage({ username, password, schoolCode }: StandardProps) {
+export async function getAssignmentsPage({ lectioCookies, schoolCode }: StandardProps) {
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     page: "assignments",
   });
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
-
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   const $ = res.$;
   const client = res.client;
@@ -32,7 +29,9 @@ export async function getAssignmentsPage({ username, password, schoolCode }: Sta
     });
 
     const pageContent = await client
-      .post("https://www.lectio.dk/lectio/243/OpgaverElev.aspx", form)
+      .post("https://www.lectio.dk/lectio/243/OpgaverElev.aspx", form, {
+        headers: { "Cookie": lectioCookies },
+      })
       .then((res) => {
         if (res.data.includes("Log ind")) {
           return "Not authenticated";

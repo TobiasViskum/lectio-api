@@ -7,5 +7,5 @@ export function getAxiosInstance() {
 
   const client = wrapper(axios.create({ jar: cookieJar, withCredentials: true }));
 
-  return client;
+  return { client: client, cookieJar: cookieJar };
 }

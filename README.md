@@ -13,7 +13,7 @@ The base url path is https://lectio-api.vercel.app/ and below you'll see a table
 Since Lectio requires you to be authenticated to get the result, you have to send at least these search parameters in every search query (<i>except `/get-school/*`</i>):
 
 ```ts
-type StandardProps = {
+type StandardProps2 = {
   username: string;
   password: string;
   schoolCode: string;

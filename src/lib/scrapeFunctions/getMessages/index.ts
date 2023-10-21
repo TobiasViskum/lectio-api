@@ -12,7 +12,7 @@ type Message = {
 
 type Props = { type: MessagesTypes };
 
-export async function getMessages({ username, password, schoolCode, type }: StandardProps & Props) {
+export async function getMessages({ lectioCookies, schoolCode, type }: StandardProps & Props) {
   const typeMap = {
     personal: "messages-personal",
     all: "messages-all",
@@ -25,14 +25,12 @@ export async function getMessages({ username, password, schoolCode, type }: Stan
 
   if (type === "all") {
     res = await getAllMessagesPage({
-      username: username,
-      password: password,
+      lectioCookies: lectioCookies,
       schoolCode: schoolCode,
     });
   } else {
     res = await getAuthenticatedPage({
-      username: username,
-      password: password,
+      lectioCookies: lectioCookies,
       schoolCode: schoolCode,
       page: typeMap[type],
     });
@@ -40,8 +38,6 @@ export async function getMessages({ username, password, schoolCode, type }: Stan
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
-
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   const $ = res.$;
 
@@ -49,7 +45,9 @@ export async function getMessages({ username, password, schoolCode, type }: Stan
     return "No data";
   }
 
-  const allGroupReceivers = Array.from($('div[lec-node-id="-20"] > div[lec-role="ltv-sublist"] > div > div > a > div')).map((value, index) => {
+  const allGroupReceivers = Array.from(
+    $('div[lec-node-id="-20"] > div[lec-role="ltv-sublist"] > div > div > a > div')
+  ).map((value, index) => {
     const $value = $(value);
     return $value.text();
   });

@@ -1,15 +1,13 @@
 import { getAuthenticatedPage } from "../getPage/getAuthenticatedPage";
 
-export async function getAllTeachers({ username, password, schoolCode }: StandardProps) {
+export async function getAllTeachers({ lectioCookies, schoolCode }: StandardProps) {
   const res = await getAuthenticatedPage({
     page: "teachers",
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
   });
 
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 

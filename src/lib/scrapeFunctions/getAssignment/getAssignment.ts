@@ -30,16 +30,14 @@ export const titleMap: { [key: string]: Titles } = {
   "I undervisningsbeskrivelse:": "inTeachingDescription",
 };
 
-export async function getAssignment({ username, password, schoolCode, href }: Props) {
+export async function getAssignment({ lectioCookies, schoolCode, href }: Props) {
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     specificPage: href,
   });
 
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 
@@ -71,8 +69,7 @@ export async function getAssignment({ username, password, schoolCode, href }: Pr
   setSubmitProps($, assignment);
 
   const teacher = await getTeacherByInitials({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     initials: assignment.teacher.initials,
   });

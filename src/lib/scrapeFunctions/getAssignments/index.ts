@@ -1,21 +1,21 @@
 import { getAssignmentsPage } from "../../getPage/getAssignmentsPage";
 import { getAssignmentProps } from "./getAssignmentProps";
 
-export async function getAssignments({ username, password, schoolCode }: StandardProps) {
+export async function getAssignments({ lectioCookies, schoolCode }: StandardProps) {
   const res = await getAssignmentsPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
   });
 
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 
   const $ = res.$;
 
-  const assignments: Assignment[] = $("#s_m_Content_Content_ExerciseGV > tbody > tr:not(:first-child)")
+  const assignments: Assignment[] = $(
+    "#s_m_Content_Content_ExerciseGV > tbody > tr:not(:first-child)"
+  )
     .map((index, item) => {
       const $item = $(item);
       const res = getAssignmentProps($item);

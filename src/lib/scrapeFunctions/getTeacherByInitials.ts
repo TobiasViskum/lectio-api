@@ -6,20 +6,17 @@ type Props = {
 };
 
 export async function getTeacherByInitials({
-  username,
-  password,
+  lectioCookies,
   initials,
   schoolCode,
 }: StandardProps & Props) {
   const res = await getAuthenticatedPage({
     page: "teachers",
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
   });
 
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 
@@ -61,7 +58,7 @@ export async function getTeacherByInitials({
   }
 
   const imageBase64 = await client
-    .get(foundTeacher.imgUrl, { responseType: "arraybuffer" })
+    .get(foundTeacher.imgUrl, { responseType: "arraybuffer", headers: { "Cookie": lectioCookies } })
     .then((res) => {
       const contentType = res.headers["content-type"];
 

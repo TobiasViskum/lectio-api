@@ -3,16 +3,18 @@ import { getHomeworkAndOtherAndPresentation, getNote, getSubjectTheme } from "./
 
 type Props = { href: string };
 
-export async function getClassInformation({ username, password, href, schoolCode }: StandardProps & Props) {
+export async function getClassInformation({
+  lectioCookies,
+  href,
+  schoolCode,
+}: StandardProps & Props) {
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     specificPage: href,
   });
 
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 

@@ -1,19 +1,19 @@
 import { load } from "cheerio";
 import { getAxiosInstance } from "../getAxiosInstance";
 import { getPageFromMap } from "./page-map";
-import { getLoginForm } from "./getForm/login-form";
 import { getSchool } from "../scrapeFunctions";
 
 type Props = {
   page?: Pages;
   specificPage?: string;
-} & StandardProps;
+  lectioCookies: string;
+  schoolCode: string;
+};
 
 export async function getAuthenticatedPage({
   page,
   specificPage,
-  username,
-  password,
+  lectioCookies,
   schoolCode,
 }: Props) {
   const baseUrl = "https://www.lectio.dk/lectio";
@@ -24,56 +24,29 @@ export async function getAuthenticatedPage({
       page: page,
     });
   } else if (specificPage) {
-    targetPage = encodeURIComponent(specificPage);
+    targetPage = specificPage;
   }
 
-  const school = await getSchool({ schoolCode });
+  const { client } = getAxiosInstance();
 
-  if (school === null) return "Invalid school";
-  if (school === "No data") return school;
-
-  const client = getAxiosInstance();
-  const form = await client
-    .get(`${baseUrl}/${schoolCode}/login.aspx`)
-    .then((res) => {
-      const $ = load(res.data);
-      const __VIEWSTATEX = $("input#__VIEWSTATEX").val();
-      const __EVENTVALIDATION = $("input#__EVENTVALIDATION").val();
-      const masterFooterValue = $('input[name="masterfootervalue"]').val();
-
-      if (__VIEWSTATEX && __EVENTVALIDATION && masterFooterValue) {
-        return getLoginForm({
-          __VIEWSTATEX: __VIEWSTATEX,
-          __EVENTVALIDATION: __EVENTVALIDATION,
-          masterFooterValue: masterFooterValue,
-          username: username,
-          password: password,
-        });
-      } else {
+  const targetPageContent = await client
+    .get(`${baseUrl}/${schoolCode}/${targetPage}`, {
+      headers: { "Cookie": lectioCookies },
+    })
+    .then(async (res) => {
+      if (res.data.includes("Log ind")) {
+        return "Not authenticated";
+      } else if (res.data.includes("Der opstod en ukendt fejl")) {
+        const school = await getSchool({ schoolCode: schoolCode });
+        if (school === null) return "Invalid school";
         return null;
+      } else {
+        return { $: load(res.data), client: client };
       }
     })
     .catch((err) => {
       return null;
     });
 
-  if (form) {
-    const targetPageContent = await client
-      .post(`${baseUrl}/login.aspx?prevurl=${targetPage}`, form)
-      .then((res) => {
-        if (res.data.includes("Log ind")) {
-          return "Not authenticated";
-        } else if (res.data.includes("Der opstod en ukendt fejl")) {
-          return null;
-        } else {
-          return { $: load(res.data), client: client };
-        }
-      })
-      .catch((err) => {
-        return null;
-      });
-    return targetPageContent;
-  } else {
-    return null;
-  }
+  return targetPageContent;
 }

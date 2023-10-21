@@ -2,17 +2,16 @@ import { load } from "cheerio";
 import { getAuthenticatedPage } from ".";
 import { getAllMessagesForm } from "./getForm/all-messages-form";
 
-export async function getAllMessagesPage({ username, password, schoolCode }: StandardProps) {
+export async function getAllMessagesPage({ lectioCookies, schoolCode }: StandardProps) {
   const res = await getAuthenticatedPage({
-    username: username,
-    password: password,
+    lectioCookies: lectioCookies,
     schoolCode: schoolCode,
     page: "messages-all",
   });
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
-  if (res === "No data") return res;
+
   if (res === "Invalid school") return res;
 
   const $ = res.$;

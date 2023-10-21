@@ -1,9 +1,9 @@
 import { load } from "cheerio";
 import { getAxiosInstance } from "../getAxiosInstance";
-import { getLoginForm } from "../getPage/getForm/login-form";
+import { getLoginForm } from "./getForm/login-form";
 import { getSchool } from "../scrapeFunctions";
 
-export async function getIsAuthenticated({ username, password, schoolCode }: StandardProps2) {
+export async function getRawAuthenticatedPage({ username, password, schoolCode }: StandardProps2) {
   const baseUrl = "https://www.lectio.dk/lectio";
   const { client, cookieJar } = getAxiosInstance();
 
