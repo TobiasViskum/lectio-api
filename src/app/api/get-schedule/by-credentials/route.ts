@@ -5,6 +5,7 @@ import {
   errorNotAuthenticated,
   errorSchoolInvalid,
   successRequest,
+  errorForbiddenAccess,
 } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getSchedule } from "@/lib/scrapeFunctions";
