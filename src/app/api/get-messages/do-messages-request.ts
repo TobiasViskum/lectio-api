@@ -5,6 +5,7 @@ import {
   errorNotAuthenticated,
   errorSchoolInvalid,
   successRequest,
+  errorForbiddenAccess,
 } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getMessages } from "@/lib/scrapeFunctions";
@@ -26,6 +27,8 @@ export async function doMessagesRequest({ request, type }: Props) {
     const result = await getMessages({ ...data, type: type });
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === "No data") {
