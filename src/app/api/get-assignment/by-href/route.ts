@@ -3,7 +3,6 @@ import {
   errorSchoolInvalid,
   failedToGetData,
   invalidParameters,
-  successNoData,
   successRequest,
 } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";

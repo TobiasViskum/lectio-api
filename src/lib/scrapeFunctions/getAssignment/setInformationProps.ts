@@ -11,13 +11,20 @@ export function setInformationProps($: cheerio.Root, assignment: FullAssignment)
     } else if (foundTitle === "documents") {
       $td.find("a").each((index, a) => {
         const $a = $(a);
-        const length = assignment.documents.push({ name: $a.text().trim(), href: "" });
+        const name = $a.text().trim();
+        const splitName = name.split(".");
+        let [fileExtension, ...rest] = splitName[splitName.length - 1].split(" ");
+        fileExtension = `.${fileExtension}`;
+        let additionFileName = rest.join(" ");
+        additionFileName = ` ${additionFileName}` || "";
+        splitName.pop();
+
+        const newName = [[...splitName].join("."), additionFileName, fileExtension].join("");
+
+        const length = assignment.documents.push({ name: newName, href: "" });
         const i = length - 1;
         let href = $a.attr("href");
         if (href) {
-          if (href.includes("/lectio/")) {
-            href = ["https://lectio.dk", href].join("");
-          }
           assignment.documents[i].href = href;
         }
       });

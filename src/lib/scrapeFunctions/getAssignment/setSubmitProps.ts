@@ -27,9 +27,6 @@ export function setSubmitProps($: cheerio.Root, assignment: FullAssignment) {
         const $a = $td.find("span > a");
         let href = $a.attr("href");
         if (href) {
-          if (href.includes("/lectio/")) {
-            href = ["https://lectio.dk", href].join("");
-          }
           assignment.submits[i - 1].document.name = $a.text();
           assignment.submits[i - 1].document.href = href;
         }
