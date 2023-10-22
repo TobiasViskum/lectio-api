@@ -43,7 +43,7 @@ export async function getAssignment({ lectioCookies, schoolCode, href }: Props) 
 
   const $ = res.$;
 
-  const assignment: FullAssignment = {
+  let assignment: FullAssignment = {
     title: "",
     documents: [],
     description: [],
@@ -67,6 +67,8 @@ export async function getAssignment({ lectioCookies, schoolCode, href }: Props) 
   setInformationProps($, assignment);
   setAdditionalProps($, assignment);
   setSubmitProps($, assignment);
+
+  assignment.submits = assignment.submits.reverse();
 
   const teacher = await getTeacherByInitials({
     lectioCookies: lectioCookies,
