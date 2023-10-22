@@ -21,6 +21,14 @@ export function successNoData(lectioCookies: string) {
   });
 }
 
+export function errorForbiddenAccess() {
+  return NextResponse.json({
+    status: "error",
+    message:
+      "There was too many requests to Lectio, so Lectio has blocked this user for a few minutes",
+  });
+}
+
 export function errorNotAuthenticated() {
   return NextResponse.json({ status: "error", message: "User not authenticated" });
 }

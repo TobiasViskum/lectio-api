@@ -9,6 +9,7 @@ export async function getStudentByCredentials({ lectioCookies, schoolCode }: Sta
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
+  if (res === "Forbidden access") return res;
   if (res === "Invalid school") return res;
 
   const $ = res.$;

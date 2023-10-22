@@ -45,6 +45,10 @@ export async function getAuthenticatedPage({
       }
     })
     .catch((err) => {
+      if (err.response && err.response.data && err.response.data.includes("Server Error")) {
+        return "Forbidden access";
+      }
+
       return null;
     });
 

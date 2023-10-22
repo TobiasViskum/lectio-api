@@ -48,6 +48,7 @@ type Assignment = {
 };
 type SubmittedDocument = { name: string; href: string };
 type FullAssignment = {
+  studentName: string;
   title: string;
   documents: SubmittedDocument[];
   description: string[];

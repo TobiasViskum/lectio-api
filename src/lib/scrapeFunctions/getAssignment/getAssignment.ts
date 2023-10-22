@@ -38,12 +38,14 @@ export async function getAssignment({ lectioCookies, schoolCode, href }: Props) 
   });
 
   if (res === "Not authenticated") return res;
+  if (res === "Forbidden access") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 
   const $ = res.$;
 
   let assignment: FullAssignment = {
+    studentName: "",
     title: "",
     documents: [],
     description: [],
@@ -63,6 +65,14 @@ export async function getAssignment({ lectioCookies, schoolCode, href }: Props) 
     studentNote: "",
     submits: [],
   };
+
+  const studentNameMatch = $("#MainTitle")
+    .text()
+    .match(/Eleven ([a-zæøå ]+)\(/i);
+
+  if (studentNameMatch) {
+    assignment.studentName = studentNameMatch[1].trim();
+  }
 
   setInformationProps($, assignment);
   setAdditionalProps($, assignment);

@@ -33,6 +33,7 @@ export async function getSchedule({
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
+  if (res === "Forbidden access") return res;
   if (res === "Invalid school") return res;
 
   const $ = res.$;

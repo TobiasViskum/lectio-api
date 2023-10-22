@@ -30,6 +30,10 @@ export function setInformationProps($: cheerio.Root, assignment: FullAssignment)
       });
     } else if (foundTitle === "note") {
       assignment.description = $td.text().split("\n");
+
+      for (let i = 0; i < assignment.description.length; i++) {
+        assignment.description[i] = assignment.description[i].replace(/\s{2,}/g, " ");
+      }
     } else if (foundTitle === "class") {
       assignment.subject = getSubjectName($td.find("span").text());
       assignment.class = $td.find("span").text().split(" ")[0];

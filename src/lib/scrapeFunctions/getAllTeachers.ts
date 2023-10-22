@@ -8,6 +8,7 @@ export async function getAllTeachers({ lectioCookies, schoolCode }: StandardProp
   });
 
   if (res === "Not authenticated") return res;
+  if (res === "Forbidden access") return res;
   if (res === "Invalid school") return res;
   if (res === null) return res;
 

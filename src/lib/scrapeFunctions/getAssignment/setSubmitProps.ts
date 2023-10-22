@@ -19,7 +19,11 @@ export function setSubmitProps($: cheerio.Root, assignment: FullAssignment) {
         assignment.submits[i - 1].time = time;
       } else if (index === 1) {
         const submitter = $td.find("span").text();
-        assignment.submits[i - 1].submitter = submitter;
+        if (assignment.teacher.initials.toLowerCase() === submitter.toLowerCase()) {
+          assignment.submits[i - 1].submitter = assignment.teacher.name;
+        } else {
+          assignment.submits[i - 1].submitter = submitter;
+        }
       } else if (index === 2) {
         const comment = $td.text();
         assignment.submits[i - 1].comment = comment;

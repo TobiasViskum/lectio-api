@@ -43,6 +43,7 @@ export async function middleware(req: NextRequest) {
     const form = await fetchCookie(`${baseUrl}/${schoolCode}/login.aspx`)
       .then(async (res) => {
         const text = await res.text();
+
         const $ = load(text);
         const __VIEWSTATEX = $("input#__VIEWSTATEX").val();
         const __EVENTVALIDATION = $("input#__EVENTVALIDATION").val();
@@ -73,7 +74,7 @@ export async function middleware(req: NextRequest) {
     await fetchCookie(`${baseUrl}/${schoolCode}/login.aspx`, {
       method: "POST",
       body: form,
-    }).then(() => {
+    }).then(async (res) => {
       const cookies = store.getCookiesSync("https://www.lectio.dk");
 
       const lectiogsc = cookies[0];

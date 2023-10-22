@@ -13,6 +13,7 @@ export async function getAssignmentsPage({ lectioCookies, schoolCode }: Standard
 
   if (res === null) return res;
   if (res === "Not authenticated") return res;
+  if (res === "Forbidden access") return res;
   if (res === "Invalid school") return res;
   const $ = res.$;
   const client = res.client;

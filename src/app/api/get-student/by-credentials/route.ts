@@ -4,6 +4,7 @@ import {
   errorNotAuthenticated,
   errorSchoolInvalid,
   successRequest,
+  errorForbiddenAccess,
 } from "@/lib/api-return";
 import { getStudentByCredentials } from "@/lib/scrapeFunctions/getStudentByCredentials";
 import { standardSchema } from "@/lib/standard-schema";
@@ -22,6 +23,8 @@ export async function GET(req: NextRequest) {
 
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === null) {

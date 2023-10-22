@@ -5,6 +5,7 @@ import {
   errorNotAuthenticated,
   errorSchoolInvalid,
   successRequest,
+  errorForbiddenAccess,
 } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getAllTeachers } from "@/lib/scrapeFunctions";
@@ -21,6 +22,8 @@ export async function GET(req: NextRequest) {
     const result = await getAllTeachers(data);
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === "No data") {

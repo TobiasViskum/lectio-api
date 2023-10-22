@@ -27,6 +27,8 @@ export async function GET(request: NextRequest) {
     const result = await getSchedule(data);
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === "No data") {

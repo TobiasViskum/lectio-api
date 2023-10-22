@@ -1,4 +1,5 @@
 import {
+  errorForbiddenAccess,
   errorNotAuthenticated,
   errorSchoolInvalid,
   failedToGetData,
@@ -22,6 +23,8 @@ export async function GET(request: NextRequest) {
 
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === null) {

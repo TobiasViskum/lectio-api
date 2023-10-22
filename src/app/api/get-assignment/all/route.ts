@@ -5,6 +5,7 @@ import {
   errorNotAuthenticated,
   errorSchoolInvalid,
   successRequest,
+  errorForbiddenAccess,
 } from "@/lib/api-return";
 import { getSearchParamsObject } from "@/lib/getSearchParamsObject";
 import { getAssignments } from "@/lib/scrapeFunctions";
@@ -22,6 +23,8 @@ export async function GET(req: NextRequest) {
 
     if (result === "Not authenticated") {
       return errorNotAuthenticated();
+    } else if (result === "Forbidden access") {
+      return errorForbiddenAccess();
     } else if (result === "Invalid school") {
       return errorSchoolInvalid();
     } else if (result === "No data") {
