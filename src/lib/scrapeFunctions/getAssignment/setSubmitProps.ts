@@ -5,7 +5,7 @@ export function setSubmitProps($: cheerio.Root, assignment: FullAssignment) {
 
     if (i !== 0) {
       assignment.submits.push({
-        time: { date: "", time: "" },
+        time: "",
         submitter: "",
         comment: "",
         document: { name: "", href: "" },
@@ -15,8 +15,8 @@ export function setSubmitProps($: cheerio.Root, assignment: FullAssignment) {
     $tr.find("td").each((index, td) => {
       const $td = $(td);
       if (index === 0) {
-        const time = $td.text().split(" ");
-        assignment.submits[i - 1].time = { date: time[0], time: time[1] };
+        const time = $td.text();
+        assignment.submits[i - 1].time = time;
       } else if (index === 1) {
         const submitter = $td.find("span").text();
         assignment.submits[i - 1].submitter = submitter;

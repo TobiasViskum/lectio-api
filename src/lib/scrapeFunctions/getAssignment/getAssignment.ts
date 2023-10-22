@@ -52,7 +52,7 @@ export async function getAssignment({ lectioCookies, schoolCode, href }: Props) 
     gradeSystem: "",
     teacher: { name: "", initials: "", teacherId: "", imgSrc: "", imgUrl: "" },
     studentTime: 0,
-    dueTo: { date: "", time: "" },
+    dueTo: "",
     inTeachingDescription: false,
     awaiter: "",
     status: "",

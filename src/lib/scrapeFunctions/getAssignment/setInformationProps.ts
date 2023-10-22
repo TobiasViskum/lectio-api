@@ -47,10 +47,8 @@ export function setInformationProps($: cheerio.Root, assignment: FullAssignment)
         assignment.studentTime = Number(studentTime);
       }
     } else if (foundTitle === "dueTo") {
-      const dueTo = $td.text().split(" ");
-
-      assignment.dueTo.date = dueTo[0];
-      assignment.dueTo.time = dueTo[1];
+      const dueTo = $td.text();
+      assignment.dueTo = dueTo;
     } else if (foundTitle === "inTeachingDescription") {
       const inTeachingDescription = $td.text() === "Ja";
       assignment.inTeachingDescription = inTeachingDescription;

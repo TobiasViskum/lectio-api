@@ -56,7 +56,7 @@ type FullAssignment = {
   gradeSystem: string;
   teacher: Teacher;
   studentTime: number;
-  dueTo: { date: string; time: string };
+  dueTo: string;
   inTeachingDescription: boolean;
   awaiter: string;
   status: string;
@@ -66,7 +66,7 @@ type FullAssignment = {
   gradeNote: string;
   studentNote: string;
   submits: {
-    time: { date: string; time: string };
+    time: string;
     submitter: string;
     comment: string;
     document: SubmittedDocument;
