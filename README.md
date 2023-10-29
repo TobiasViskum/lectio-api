@@ -7,6 +7,7 @@ This is what I have created so far using this api: https://lectio.muksiv.dk/
 <small>Developed by Tobias T. Viskum</small>
 
 <small><i>NOTE: Nothing sent to this API will be stored, but you'll always have the opportunity to clone this repository and host the API yourself</i></small>
+<i>A major change in the API will happen in the near future, which will also make it much more stable!</i>
 
 ## How to use this API?
 
